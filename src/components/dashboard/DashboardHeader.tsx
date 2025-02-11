@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Bell, Globe, LogOut, Menu, Settings, User } from "lucide-react";
+import RoleSwitcher from "../shared/RoleSwitcher";
 
 interface DashboardHeaderProps {
   userName?: string;
@@ -44,6 +45,7 @@ const DashboardHeader = ({
       </div>
 
       <div className="flex items-center gap-4">
+        <RoleSwitcher />
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           {notifications > 0 && (

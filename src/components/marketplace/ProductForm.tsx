@@ -12,6 +12,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface ProductFormProps {
+  onSuccess?: () => void;
+}
+
 interface ProductFormData {
   name: string;
   description: string;
@@ -21,7 +25,7 @@ interface ProductFormData {
   category: string;
 }
 
-const ProductForm = () => {
+const ProductForm = ({ onSuccess }: ProductFormProps) => {
   const [formData, setFormData] = useState<ProductFormData>({
     name: "",
     description: "",
@@ -65,8 +69,8 @@ const ProductForm = () => {
         category: "vegetables",
       });
 
-      alert("Product added successfully!");
-    } catch (err) {
+      onSuccess?.();
+    } catch (err: any) {
       alert(err.message);
     }
   };

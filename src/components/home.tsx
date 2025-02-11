@@ -7,7 +7,7 @@ interface HomeProps {
   initialUserRole?: "farmer" | "distributor" | "retailer" | "consumer";
 }
 
-const Home = ({ initialUserRole = "farmer" }: HomeProps) => {
+const Home = ({ initialUserRole = "consumer" }: HomeProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [userRole] = useState(initialUserRole);
 
@@ -30,7 +30,7 @@ const Home = ({ initialUserRole = "farmer" }: HomeProps) => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transform transition-transform duration-200 ease-in-out fixed lg:relative lg:translate-x-0 z-20 h-[calc(100vh-5rem)]`}
         >
-          <Sidebar userRole={userRole} activeItem="dashboard" />
+          <Sidebar userRole={userRole} />
         </div>
 
         <div className="flex-1 overflow-auto">

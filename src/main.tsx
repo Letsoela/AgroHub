@@ -1,17 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-
+import App from "./App";
+import "./index.css";
 import { TempoDevtools } from "tempo-devtools";
-TempoDevtools.init();
+import { pdfjs } from "react-pdf";
 
-const basename = import.meta.env.BASE_URL;
+// Initialize PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+
+// Initialize Tempo Devtools
+TempoDevtools.init();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter basename={basename}>
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

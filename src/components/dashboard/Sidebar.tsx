@@ -1,23 +1,24 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { UserRole } from "@/lib/types";
 import {
   Home,
+  MessageSquare,
+  Store,
   Package,
   Truck,
   Users,
-  ShoppingCart,
-  MessageCircle,
   Settings,
-  LogOut,
   BarChart,
+  ShoppingCart,
+  Map,
+  Tag,
+  Network,
+  Gavel,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
-interface SidebarProps {
-  userRole?: "farmer" | "distributor" | "retailer" | "consumer";
-  activeItem?: string;
-}
 
 interface NavItem {
   label: string;
@@ -25,169 +26,162 @@ interface NavItem {
   href: string;
 }
 
-const Sidebar = ({
-  userRole = "farmer",
-  activeItem = "dashboard",
-}: SidebarProps) => {
-  const navigate = useNavigate();
-
-  const navItemsByRole: Record<string, NavItem[]> = {
-    farmer: [
-      {
-        label: "Dashboard",
-        icon: <Home className="w-5 h-5" />,
-        href: "/dashboard",
-      },
-      {
-        label: "Inventory",
-        icon: <Package className="w-5 h-5" />,
-        href: "/inventory",
-      },
-      {
-        label: "Orders",
-        icon: <ShoppingCart className="w-5 h-5" />,
-        href: "/orders",
-      },
-      {
-        label: "Shipments",
-        icon: <Truck className="w-5 h-5" />,
-        href: "/shipments",
-      },
-      {
-        label: "Analytics",
-        icon: <BarChart className="w-5 h-5" />,
-        href: "/analytics",
-      },
-    ],
-    distributor: [
-      {
-        label: "Dashboard",
-        icon: <Home className="w-5 h-5" />,
-        href: "/dashboard",
-      },
-      {
-        label: "Products",
-        icon: <Package className="w-5 h-5" />,
-        href: "/products",
-      },
-      {
-        label: "Distribution",
-        icon: <Truck className="w-5 h-5" />,
-        href: "/distribution",
-      },
-      {
-        label: "Partners",
-        icon: <Users className="w-5 h-5" />,
-        href: "/partners",
-      },
-      {
-        label: "Analytics",
-        icon: <BarChart className="w-5 h-5" />,
-        href: "/analytics",
-      },
-    ],
-    retailer: [
-      {
-        label: "Dashboard",
-        icon: <Home className="w-5 h-5" />,
-        href: "/dashboard",
-      },
-      {
-        label: "Products",
-        icon: <Package className="w-5 h-5" />,
-        href: "/products",
-      },
-      {
-        label: "Orders",
-        icon: <ShoppingCart className="w-5 h-5" />,
-        href: "/orders",
-      },
-      {
-        label: "Customers",
-        icon: <Users className="w-5 h-5" />,
-        href: "/customers",
-      },
-      {
-        label: "Analytics",
-        icon: <BarChart className="w-5 h-5" />,
-        href: "/analytics",
-      },
-    ],
-    consumer: [
-      {
-        label: "Dashboard",
-        icon: <Home className="w-5 h-5" />,
-        href: "/dashboard",
-      },
-      {
-        label: "Shop",
-        icon: <ShoppingCart className="w-5 h-5" />,
-        href: "/shop",
-      },
-      {
-        label: "Orders",
-        icon: <Package className="w-5 h-5" />,
-        href: "/orders",
-      },
-      { label: "Track", icon: <Truck className="w-5 h-5" />, href: "/track" },
-    ],
-  };
-
-  const commonItems = [
+// Role specific items
+const roleSpecificItems: Record<UserRole, NavItem[]> = {
+  farmer: [
     {
-      label: "Messages",
-      icon: <MessageCircle className="w-5 h-5" />,
-      href: "/messages",
+      label: "Inventory",
+      icon: <Package className="w-5 h-5" />,
+      href: "/inventory",
     },
     {
-      label: "Settings",
-      icon: <Settings className="w-5 h-5" />,
-      href: "/settings",
+      label: "Orders",
+      icon: <ShoppingCart className="w-5 h-5" />,
+      href: "/orders",
     },
-  ];
+    {
+      label: "Shipments",
+      icon: <Truck className="w-5 h-5" />,
+      href: "/shipments",
+    },
+    {
+      label: "Analytics",
+      icon: <BarChart className="w-5 h-5" />,
+      href: "/analytics",
+    },
+  ],
+  distributor: [
+    {
+      label: "Supply Chain",
+      icon: <Network className="w-5 h-5" />,
+      href: "/supply-chain",
+    },
+    {
+      label: "Inventory",
+      icon: <Package className="w-5 h-5" />,
+      href: "/inventory",
+    },
+    {
+      label: "Orders",
+      icon: <ShoppingCart className="w-5 h-5" />,
+      href: "/orders",
+    },
+    {
+      label: "Partners",
+      icon: <Users className="w-5 h-5" />,
+      href: "/partners",
+    },
+    {
+      label: "Analytics",
+      icon: <BarChart className="w-5 h-5" />,
+      href: "/analytics",
+    },
+  ],
+  retailer: [
+    {
+      label: "Marketplace",
+      icon: <Store className="w-5 h-5" />,
+      href: "/marketplace",
+    },
+    {
+      label: "Store",
+      icon: <Store className="w-5 h-5" />,
+      href: "/store",
+    },
+    {
+      label: "Orders",
+      icon: <ShoppingCart className="w-5 h-5" />,
+      href: "/orders",
+    },
+    {
+      label: "Customers",
+      icon: <Users className="w-5 h-5" />,
+      href: "/customers",
+    },
+    {
+      label: "Analytics",
+      icon: <BarChart className="w-5 h-5" />,
+      href: "/analytics",
+    },
+  ],
+  consumer: [
+    {
+      label: "Marketplace",
+      icon: <Store className="w-5 h-5" />,
+      href: "/marketplace",
+    },
+    {
+      label: "Find Stores",
+      icon: <Map className="w-5 h-5" />,
+      href: "/stores",
+    },
+    {
+      label: "My Orders",
+      icon: <ShoppingCart className="w-5 h-5" />,
+      href: "/orders",
+    },
+    {
+      label: "Track Order",
+      icon: <Truck className="w-5 h-5" />,
+      href: "/track",
+    },
+    {
+      label: "Deals",
+      icon: <Tag className="w-5 h-5" />,
+      href: "/deals",
+    },
+  ],
+};
 
-  const navItems = [...(navItemsByRole[userRole] || []), ...commonItems];
+// Common items for all roles
+const commonItems: NavItem[] = [
+  {
+    label: "Feed",
+    icon: <Home className="w-5 h-5" />,
+    href: "/feed",
+  },
+  {
+    label: "Messages",
+    icon: <MessageSquare className="w-5 h-5" />,
+    href: "/messages",
+  },
+  {
+    label: "Auctions",
+    icon: <Gavel className="w-5 h-5" />,
+    href: "/auctions",
+  },
+];
+
+interface SidebarProps {
+  userRole?: UserRole;
+}
+
+const Sidebar = ({ userRole = "consumer" }: SidebarProps) => {
+  const location = useLocation();
+  const items = [...commonItems, ...roleSpecificItems[userRole]];
 
   return (
-    <div className="w-[280px] h-full bg-white border-r px-3 py-4 flex flex-col justify-between">
-      <div className="space-y-4">
-        <div className="px-3 py-2">
-          <h2 className="text-2xl font-bold text-primary">AgroHub</h2>
-          <p className="text-sm text-muted-foreground capitalize">
-            {userRole} Portal
-          </p>
-        </div>
-
-        <nav className="space-y-1">
-          {navItems.map((item) => (
+    <div className="w-[280px] h-full border-r bg-white">
+      <ScrollArea className="h-full py-6">
+        <nav className="space-y-2 px-4">
+          {items.map((item) => (
             <Button
-              key={item.label}
-              variant={
-                activeItem === item.label.toLowerCase() ? "secondary" : "ghost"
-              }
+              key={item.href}
+              variant="ghost"
+              asChild
               className={cn(
-                "w-full justify-start gap-3 px-3 py-2 h-10",
-                activeItem === item.label.toLowerCase()
-                  ? "bg-secondary"
-                  : "hover:bg-secondary/50",
+                "w-full justify-start",
+                location.pathname === item.href && "bg-muted",
               )}
-              onClick={() => navigate(item.href)}
             >
-              {item.icon}
-              <span>{item.label}</span>
+              <Link to={item.href} className="flex items-center gap-3">
+                {item.icon}
+                {item.label}
+              </Link>
             </Button>
           ))}
         </nav>
-      </div>
-
-      <Button
-        variant="ghost"
-        className="w-full justify-start gap-3 px-3 py-2 h-10 text-red-500 hover:text-red-600 hover:bg-red-50"
-        onClick={() => navigate("/logout")}
-      >
-        <LogOut className="w-5 h-5" />
-        <span>Logout</span>
-      </Button>
+      </ScrollArea>
     </div>
   );
 };

@@ -118,6 +118,53 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          buyer_id: string
+          created_at: string
+          id: string
+          product_id: string
+          quantity: number
+          seller_id: string
+          shipping_address: string | null
+          status: string
+          total_price: number
+          tracking_number: string | null
+        }
+        Insert: {
+          buyer_id: string
+          created_at?: string
+          id?: string
+          product_id: string
+          quantity: number
+          seller_id: string
+          shipping_address?: string | null
+          status: string
+          total_price: number
+          tracking_number?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          created_at?: string
+          id?: string
+          product_id?: string
+          quantity?: number
+          seller_id?: string
+          shipping_address?: string | null
+          status?: string
+          total_price?: number
+          tracking_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       posts: {
         Row: {
           content: string
